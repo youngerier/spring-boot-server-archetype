@@ -1,0 +1,54 @@
+# Maven
+target/
+!ping-web/ping-app/target/*.jar
+.mvn/
+!.mvn/wrapper/
+mvnw
+mvnw.cmd
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings/
+
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+
+# Documentation
+docs/
+README.md
+LICENSE
+
+# Other unnecessary files
+*.md
+!module-dependencies.md
+*.txt
+*.pdf
+
+# Build and config files
+build.sh
+k8s/
+.flattened-pom.xml
+pom-xml-flattened
+
+# Docker files
+Dockerfile*
+.dockerignore

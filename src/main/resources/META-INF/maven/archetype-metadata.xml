@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.2.0 https://maven.apache.org/xsd/archetype-descriptor-1.2.0.xsd" name="scan2pay-server"
+    xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.2.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <fileSets>
+    <fileSet filtered="true" encoding="UTF-8">
+      <directory>.mvn/wrapper</directory>
+      <includes>
+        <include>**/*.properties</include>
+      </includes>
+    </fileSet>
+    <fileSet encoding="UTF-8">
+      <directory>.mvn/wrapper</directory>
+      <includes>
+        <include>**/*.jar</include>
+      </includes>
+    </fileSet>
+    <fileSet encoding="UTF-8">
+      <directory>k8s</directory>
+      <includes>
+        <include>**/*.yaml</include>
+      </includes>
+    </fileSet>
+    <fileSet encoding="UTF-8">
+      <directory>doc</directory>
+      <includes>
+        <include>**/*.md</include>
+        <include>**/*.MD</include>
+      </includes>
+    </fileSet>
+    <fileSet filtered="true" encoding="UTF-8">
+      <includes>
+        <include>settings.xml</include>
+        <include>pom.xml</include>
+      </includes>
+    </fileSet>
+    <fileSet encoding="UTF-8">
+      <includes>
+        <include>mvnw.cmd</include>
+        <include>MODULE_DEPENDENCIES.md</include>
+        <include>build.sh</include>
+        <include>.dockerignore</include>
+        <include>mybatis-flex.config</include>
+        <include>.gitignore</include>
+        <include>mvnw</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+  <modules>
+    <module id="app-infra" dir="app-infra" name="app-infra">
+      <fileSets>
+        <fileSet filtered="true" encoding="UTF-8">
+          <includes>
+            <include>pom.xml</include>
+          </includes>
+        </fileSet>
+      </fileSets>
+      <modules>
+        <module id="app-infra-business" dir="app-infra-business" name="app-infra-business">
+          <fileSets>
+            <fileSet filtered="true" packaged="true" encoding="UTF-8">
+              <directory>src/main/java</directory>
+              <includes>
+                <include>**/*.java</include>
+              </includes>
+            </fileSet>
+            <fileSet filtered="true" encoding="UTF-8">
+              <includes>
+                <include>pom.xml</include>
+              </includes>
+            </fileSet>
+          </fileSets>
+        </module>
+        <module id="app-infra-toolkit" dir="app-infra-toolkit" name="app-infra-toolkit">
+          <fileSets>
+            <fileSet filtered="true" packaged="true" encoding="UTF-8">
+              <directory>src/main/java</directory>
+              <includes>
+                <include>**/*.java</include>
+              </includes>
+            </fileSet>
+            <fileSet filtered="true" encoding="UTF-8">
+              <includes>
+                <include>pom.xml</include>
+              </includes>
+            </fileSet>
+          </fileSets>
+        </module>
+      </modules>
+    </module>
+    <module id="app-api" dir="app-api" name="app-api">
+      <fileSets>
+        <fileSet filtered="true" encoding="UTF-8">
+          <includes>
+            <include>pom.xml</include>
+          </includes>
+        </fileSet>
+      </fileSets>
+      <modules>
+        <module id="app-api-user" dir="app-api-user" name="app-api-user">
+          <fileSets>
+            <fileSet filtered="true" packaged="true" encoding="UTF-8">
+              <directory>src/main/java</directory>
+              <includes>
+                <include>**/*.java</include>
+              </includes>
+            </fileSet>
+            <fileSet filtered="true" encoding="UTF-8">
+              <includes>
+                <include>pom.xml</include>
+              </includes>
+            </fileSet>
+          </fileSets>
+        </module>
+        <module id="app-api-system" dir="app-api-system" name="app-api-system">
+          <fileSets>
+            <fileSet filtered="true" packaged="true" encoding="UTF-8">
+              <directory>src/main/java</directory>
+              <includes>
+                <include>**/*.java</include>
+              </includes>
+            </fileSet>
+            <fileSet filtered="true" encoding="UTF-8">
+              <includes>
+                <include>pom.xml</include>
+              </includes>
+            </fileSet>
+          </fileSets>
+        </module>
+      </modules>
+    </module>
+    <module id="app-biz" dir="app-biz" name="app-biz">
+      <fileSets>
+        <fileSet filtered="true" encoding="UTF-8">
+          <includes>
+            <include>pom.xml</include>
+          </includes>
+        </fileSet>
+      </fileSets>
+      <modules>
+        <module id="app-biz-system" dir="app-biz-system" name="app-biz-system">
+          <fileSets>
+            <fileSet filtered="true" packaged="true" encoding="UTF-8">
+              <directory>src/main/java</directory>
+              <includes>
+                <include>**/*.java</include>
+              </includes>
+            </fileSet>
+            <fileSet filtered="true" encoding="UTF-8">
+              <includes>
+                <include>pom.xml</include>
+              </includes>
+            </fileSet>
+          </fileSets>
+        </module>
+        <module id="app-biz-user" dir="app-biz-user" name="app-biz-user">
+          <fileSets>
+            <fileSet filtered="true" packaged="true" encoding="UTF-8">
+              <directory>src/main/java</directory>
+              <includes>
+                <include>**/*.java</include>
+              </includes>
+            </fileSet>
+            <fileSet filtered="true" encoding="UTF-8">
+              <includes>
+                <include>pom.xml</include>
+              </includes>
+            </fileSet>
+          </fileSets>
+        </module>
+      </modules>
+    </module>
+    <module id="app-core" dir="app-core" name="app-core">
+      <fileSets>
+        <fileSet filtered="true" packaged="true" encoding="UTF-8">
+          <directory>src/main/java</directory>
+          <includes>
+            <include>**/*.java</include>
+          </includes>
+        </fileSet>
+        <fileSet filtered="true" encoding="UTF-8">
+          <includes>
+            <include>pom.xml</include>
+          </includes>
+        </fileSet>
+      </fileSets>
+    </module>
+    <module id="app-web" dir="app-web" name="app-web">
+      <fileSets>
+        <fileSet filtered="true" encoding="UTF-8">
+          <includes>
+            <include>pom.xml</include>
+          </includes>
+        </fileSet>
+      </fileSets>
+      <modules>
+        <module id="app-web-member" dir="app-web-member" name="app-web-member">
+          <fileSets>
+            <fileSet filtered="true" packaged="true" encoding="UTF-8">
+              <directory>src/main/java</directory>
+              <includes>
+                <include>**/*.java</include>
+              </includes>
+            </fileSet>
+            <fileSet filtered="true" encoding="UTF-8">
+              <includes>
+                <include>pom.xml</include>
+              </includes>
+            </fileSet>
+          </fileSets>
+        </module>
+        <module id="app-web-admin" dir="app-web-admin" name="app-web-admin">
+          <fileSets>
+            <fileSet filtered="true" packaged="true" encoding="UTF-8">
+              <directory>src/main/java</directory>
+              <includes>
+                <include>**/*.java</include>
+              </includes>
+            </fileSet>
+            <fileSet filtered="true" encoding="UTF-8">
+              <includes>
+                <include>pom.xml</include>
+              </includes>
+            </fileSet>
+          </fileSets>
+        </module>
+        <module id="app-web-common" dir="app-web-common" name="app-web-common">
+          <fileSets>
+            <fileSet filtered="true" packaged="true" encoding="UTF-8">
+              <directory>src/main/java</directory>
+              <includes>
+                <include>**/*.java</include>
+              </includes>
+            </fileSet>
+            <fileSet filtered="true" encoding="UTF-8">
+              <directory>src/main/resources</directory>
+              <includes>
+                <include>**/*.xml</include>
+              </includes>
+            </fileSet>
+            <fileSet filtered="true" encoding="UTF-8">
+              <includes>
+                <include>pom.xml</include>
+              </includes>
+            </fileSet>
+          </fileSets>
+        </module>
+      </modules>
+    </module>
+    <module id="spring-boot-starter-jwt-auth" dir="middleware/spring-boot-starter-jwt-auth" name="spring-boot-starter-jwt-auth">
+      <fileSets>
+        <fileSet filtered="true" packaged="true" encoding="UTF-8">
+          <directory>src/main/java</directory>
+          <includes>
+            <include>**/*.java</include>
+          </includes>
+        </fileSet>
+        <fileSet encoding="UTF-8">
+          <directory>src/main/resources</directory>
+          <includes>
+            <include>**/*.imports</include>
+            <include>**/*.json</include>
+          </includes>
+        </fileSet>
+        <fileSet filtered="true" encoding="UTF-8">
+          <includes>
+            <include>pom.xml</include>
+          </includes>
+        </fileSet>
+        <fileSet encoding="UTF-8">
+          <includes>
+            <include>README.md</include>
+          </includes>
+        </fileSet>
+      </fileSets>
+    </module>
+    <module id="app-admin" dir="bootstrap/app-admin" name="app-admin">
+      <fileSets>
+        <fileSet filtered="true" packaged="true" encoding="UTF-8">
+          <directory>src/main/java</directory>
+          <includes>
+            <include>**/*.java</include>
+          </includes>
+        </fileSet>
+        <fileSet filtered="true" encoding="UTF-8">
+          <directory>src/main/resources</directory>
+          <includes>
+            <include>**/*.properties</include>
+          </includes>
+        </fileSet>
+        <fileSet encoding="UTF-8">
+          <directory>src/main/resources</directory>
+          <includes>
+            <include>**/*.yml</include>
+          </includes>
+        </fileSet>
+        <fileSet filtered="true" encoding="UTF-8">
+          <includes>
+            <include>pom.xml</include>
+          </includes>
+        </fileSet>
+        <fileSet encoding="UTF-8">
+          <includes>
+            <include>Dockerfile</include>
+          </includes>
+        </fileSet>
+      </fileSets>
+    </module>
+    <module id="app-member" dir="bootstrap/app-member" name="app-member">
+      <fileSets>
+        <fileSet filtered="true" packaged="true" encoding="UTF-8">
+          <directory>src/main/java</directory>
+          <includes>
+            <include>**/*.java</include>
+          </includes>
+        </fileSet>
+        <fileSet encoding="UTF-8">
+          <directory>src/main/resources</directory>
+          <includes>
+            <include>**/*.yml</include>
+          </includes>
+        </fileSet>
+        <fileSet filtered="true" encoding="UTF-8">
+          <includes>
+            <include>pom.xml</include>
+          </includes>
+        </fileSet>
+        <fileSet encoding="UTF-8">
+          <includes>
+            <include>Dockerfile</include>
+          </includes>
+        </fileSet>
+      </fileSets>
+    </module>
+    <module id="tests" dir="tests" name="tests">
+      <fileSets>
+        <fileSet filtered="true" packaged="true" encoding="UTF-8">
+          <directory>src/test/java</directory>
+          <includes>
+            <include>**/*.java</include>
+          </includes>
+        </fileSet>
+        <fileSet filtered="true" encoding="UTF-8">
+          <directory>src/test/resources</directory>
+          <includes>
+            <include>**/*.properties</include>
+          </includes>
+        </fileSet>
+        <fileSet encoding="UTF-8">
+          <directory>src/test/resources</directory>
+          <includes>
+            <include>**/*.sql</include>
+          </includes>
+        </fileSet>
+        <fileSet filtered="true" encoding="UTF-8">
+          <includes>
+            <include>pom.xml</include>
+          </includes>
+        </fileSet>
+      </fileSets>
+    </module>
+  </modules>
+</archetype-descriptor>

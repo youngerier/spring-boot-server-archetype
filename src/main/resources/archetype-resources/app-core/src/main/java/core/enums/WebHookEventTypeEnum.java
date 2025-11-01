@@ -1,0 +1,120 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+package ${package}.core.enums;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+/**
+ * resource.operate
+ */
+@Getter
+@AllArgsConstructor
+public enum WebHookEventTypeEnum {
+    KYC_PASSED("KYC.PASSED"),
+    KYC_UPDATE("KYC.UPDATE"),
+    KYC_BLACKLISTED("KYC.BLACKLISTED"),
+    KYC_CANCELED("KYC.CANCELED"),
+    KYC_REQUEST("KYC.REQUEST"),
+    KYC_AWAIT_ADDITIONAL("KYC.AWAIT_ADDITIONAL"),
+    KYC_CHECK_ADDITIONAL("KYC.CHECK_ADDITIONAL"),
+    KYC_PENDING("KYC.PENDING"),
+    KYB_PASSED("KYB.PASSED"),
+    KYB_CANCELED("KYB.CANCELED"),
+    KYB_BLACKLISTED("KYB.BLACKLISTED"),
+    KYB_REQUEST("KYB.REQUEST"),
+    KYB_PENDING("KYB.PENDING"),
+    CARD_TRANSACTION_CREATED("CARD_TRANSACTION.CREATED"),
+    CARD_TRANSACTION_UPDATED("CARD_TRANSACTION.UPDATED"),
+    CARD_DELETED("CARD.DELETED"),
+    CARD_CREATED("CARD.CREATED"),
+    CARD_UPDATED("CARD.UPDATED"),
+    CARD_SETTING_UPDATED("CARD.SETTING.UPDATED"),
+
+    CARD_SCENE_UPDATED("CARD.SCENE.UPDATED"),
+    BUDGET_CREATE("BUDGET.CREATED"),
+    BUDGET_DELETED("BUDGET.DELETED"),
+    BUDGET_UPDATE("BUDGET.UPDATE"),
+    BUDGET_TRANSACTION_CREATED("BUDGET_TRANSACTION.CREATED"),
+    BUDGET_TRANSACTION_UPDATED("BUDGET_TRANSACTION.UPDATED"),
+    INFINITY_ACCOUNT_WALLET_TRANSACTION_CREATED("INFINITY_ACCOUNT_WALLET_TRANSACTION.CREATED"),
+    PHYSICAL_CARD_ACTIVATED("PHYSICAL_CARD_ACTIVATED"),
+    CARDHOLDER_CREATE("CARDHOLDER.CREATED"),
+    CARDHOLDER_DELETED("CARDHOLDER.DELETED"),
+    CARDHOLDER_UPDATE("CARDHOLDER.UPDATE"),
+
+    //${symbol_pound}region 加密资产event type
+    /**
+     * 链上充提-CREATED
+     */
+    BLOCKCHAIN_TRANSFER_CREATED("BLOCKCHAIN_TRANSFER.CREATED"),
+
+    /**
+     * 链上充提-PENDING
+     */
+    BLOCKCHAIN_TRANSFER_UPDATE("BLOCKCHAIN_TRANSFER.UPDATE"),
+
+    /**
+     * 链上退款-CREATED
+     */
+    BLOCKCHAIN_REFUND_CREATED("BLOCKCHAIN_REFUND.CREATED"),
+
+    /**
+     * 链上退款-COMPLETE
+     */
+    BLOCKCHAIN_REFUND_UPDATE("BLOCKCHAIN_REFUND.UPDATE"),
+
+    /**
+     * 统一付款创建交易
+     */
+    BUSINESS_TRANSFER_PAYOUT_PAYMENT_CREATED("BUSINESS_TRANSFER.PAYOUT.PAYMENT.CREATED"),
+
+    /**
+     * 统一付款交易状态变更
+     */
+    BUSINESS_TRANSFER_PAYOUT_PAYMENT_UPDATE("BUSINESS_TRANSFER.PAYOUT.PAYMENT.UPDATE"),
+
+    /**
+     * 创建跨业务转账
+     */
+    BUSINESS_TRANSFER_CREATED("BUSINESS_TRANSFER.CREATED"),
+
+    /**
+     * 更新跨业务转账状态
+     */
+    BUSINESS_TRANSFER_UPDATE("BUSINESS_TRANSFER.UPDATE"),
+
+    /**
+     * 申请开户
+     */
+    APPLY_LEGAL_ENTITY_CREATED("APPLY_LEGAL_ENTITY.CREATED"),
+
+    /**
+     * 开户状态更新
+     */
+    APPLY_LEGAL_ENTITY_UPDATE("APPLY_LEGAL_ENTITY.UPDATE"),
+
+    /**
+     * 申请VA
+     */
+    APPLY_BANK_ACCOUNT_CREATED("APPLY_BANK_ACCOUNT.CREATED"),
+
+    /**
+     * 申请VA状态更新
+     */
+    APPLY_BANK_ACCOUNT_UPDATE("APPLY_BANK_ACCOUNT.UPDATE"),
+    ;
+
+    private final String eventType;
+
+
+    public static WebHookEventTypeEnum fromEventType(String type) {
+        for (WebHookEventTypeEnum e : values()) {
+            if (e.getEventType().equalsIgnoreCase(type)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("Unknown eventType: " + type);
+    }
+}

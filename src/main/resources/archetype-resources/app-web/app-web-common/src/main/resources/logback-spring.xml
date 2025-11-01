@@ -1,0 +1,154 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 从 spring配置中引用   -->
+    <springProperty name="APP_NAME" scope="context" source="spring.application.name"/>
+    <springProperty name="LOG_FILE_PATH" source="logging.file.path" defaultValue="${symbol_dollar}{user.home}/logs/${symbol_dollar}{APP_NAME}"/>
+    <springProperty name="SPRING_PROFILES_ACTIVE" scope="context" source="spring.profiles.active"/>
+
+    <springProperty name="SLS_ENDPOINT" scope="context" source="aliyun.sls.endpoint"/>
+    <springProperty name="SLS_ACCESS_KEY_ID" scope="context" source="aliyun.sls.accessKeyId"/>
+    <springProperty name="SLS_ACCESS_KEY_SECRET" scope="context" source="aliyun.sls.accessKeySecret"/>
+    <springProperty name="SLS_PROJECT" scope="context" source="aliyun.sls.project"/>
+    <springProperty name="SLS_LOG_STORE" scope="context" source="aliyun.sls.logStore"/>
+    <contextName>${symbol_dollar}{APP_NAME}</contextName>
+
+    <!-- 控制台日志-->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%X{X-TraceId:-} | %clr(%d{${symbol_dollar}{LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${symbol_dollar}{LOG_LEVEL_PATTERN:-%5p}) %clr(${symbol_dollar}{PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %msg%n${symbol_dollar}{LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <!-- 文件日志-->
+    <property name="FILE_LOG_PATTERN"
+              value="%X{X-TraceId:-} | %d{${symbol_dollar}{LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${symbol_dollar}{LOG_LEVEL_PATTERN:-%5p} ${symbol_dollar}{PID:- } --- [%t] %-40.40logger{39} : %msg%n${symbol_dollar}{LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <property name="LOGBACK_ROLLINGPOLICY_MAX_HISTORY" value="30"/>
+    <property name="LOGBACK_ROLLINGPOLICY_TOTAL_SIZE_CAP" value="20GB"/>
+    <property name="LOGBACK_ROLLINGPOLICY_MAX_FILE_SIZE" value="10MB"/>
+    <property name="LOG_FILE" value="${symbol_dollar}{LOG_FILE_PATH}/${symbol_dollar}{APP_NAME}.log"/>
+    <property name="LOG_ERROR_FILE" value="${symbol_dollar}{LOG_FILE_PATH}/${symbol_dollar}{APP_NAME}-error.log"/>
+
+    <!-- see   http://logback.qos.ch/manual/configuration.html -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <!-- 解决debug模式下循环发送的问题 -->
+    <logger name="org.apache.http.impl.conn.Wire" level="WARN"/>
+    <!--为了防止进程退出时，内存中的数据丢失，请加上此选项-->
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>${symbol_dollar}{FILE_LOG_PATTERN}</pattern>
+            <charset>${symbol_dollar}{FILE_LOG_CHARSET}</charset>
+        </encoder>
+        <file>${symbol_dollar}{LOG_FILE}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${symbol_dollar}{LOGBACK_ROLLINGPOLICY_FILE_NAME_PATTERN:-${symbol_dollar}{LOG_FILE}.%d{yyyy-MM-dd}.%i.gz}
+            </fileNamePattern>
+            <cleanHistoryOnStart>${symbol_dollar}{LOGBACK_ROLLINGPOLICY_CLEAN_HISTORY_ON_START:-false}</cleanHistoryOnStart>
+            <maxFileSize>${symbol_dollar}{LOGBACK_ROLLINGPOLICY_MAX_FILE_SIZE:-10MB}</maxFileSize>
+            <totalSizeCap>${symbol_dollar}{LOGBACK_ROLLINGPOLICY_TOTAL_SIZE_CAP:-0}</totalSizeCap>
+            <maxHistory>${symbol_dollar}{LOGBACK_ROLLINGPOLICY_MAX_HISTORY:-7}</maxHistory>
+        </rollingPolicy>
+    </appender>
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <pattern>${symbol_dollar}{FILE_LOG_PATTERN}</pattern>
+            <charset>${symbol_dollar}{FILE_LOG_CHARSET}</charset>
+        </encoder>
+        <file>${symbol_dollar}{LOG_ERROR_FILE}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${symbol_dollar}{LOGBACK_ROLLINGPOLICY_FILE_NAME_PATTERN:-${symbol_dollar}{LOG_ERROR_FILE}.%d{yyyy-MM-dd}.%i.gz}
+            </fileNamePattern>
+            <cleanHistoryOnStart>${symbol_dollar}{LOGBACK_ROLLINGPOLICY_CLEAN_HISTORY_ON_START:-false}</cleanHistoryOnStart>
+            <maxFileSize>${symbol_dollar}{LOGBACK_ROLLINGPOLICY_MAX_FILE_SIZE:-10MB}</maxFileSize>
+            <totalSizeCap>${symbol_dollar}{LOGBACK_ROLLINGPOLICY_TOTAL_SIZE_CAP:-0}</totalSizeCap>
+            <maxHistory>${symbol_dollar}{LOGBACK_ROLLINGPOLICY_MAX_HISTORY:-7}</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="FILE_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃 TRACT、DEBUG、INF O级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>512</queueSize>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="FILE"/>
+    </appender>
+    <appender name="ERROR_FILE_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃 TRACT、DEBUG、INF O级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>512</queueSize>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="ERROR_FILE"/>
+    </appender>
+    <appender name="CONSOLE_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃 TRACT、DEBUG、INF O级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>512</queueSize>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="CONSOLE"/>
+    </appender>
+
+    <!-- 调试信息：打印SLS配置参数 -->
+
+    <appender name="ALI_YUN_SLS" class="com.aliyun.openservices.log.logback.LoghubAppender">
+        <!--必选项-->
+        <!-- 账号及网络配置 -->
+        <endpoint>${symbol_dollar}{SLS_ENDPOINT}</endpoint>
+        <accessKeyId>${symbol_dollar}{SLS_ACCESS_KEY_ID}</accessKeyId>
+        <accessKeySecret>${symbol_dollar}{SLS_ACCESS_KEY_SECRET}</accessKeySecret>
+
+        <!-- sls 项目配置 -->
+        <project>${symbol_dollar}{SLS_PROJECT}</project>
+        <logStore>${symbol_dollar}{SLS_LOG_STORE}</logStore>
+        <!--必选项 (end)-->
+
+        <!-- 可选项 -->
+        <topic>scan2pay</topic>
+        <source>${symbol_dollar}{APP_NAME}</source>
+
+        <!-- 可选项 详见 '参数说明'-->
+        <totalSizeInBytes>104857600</totalSizeInBytes>
+        <maxBlockMs>0</maxBlockMs>
+        <ioThreadCount>8</ioThreadCount>
+        <batchSizeThresholdInBytes>524288</batchSizeThresholdInBytes>
+        <batchCountThreshold>4096</batchCountThreshold>
+        <lingerMs>2000</lingerMs>
+        <retries>10</retries>
+        <baseRetryBackoffMs>100</baseRetryBackoffMs>
+        <maxRetryBackoffMs>50000</maxRetryBackoffMs>
+
+        <!-- 可选项 通过配置 encoder 的 pattern 自定义 log 的格式 -->
+        <encoder>
+            <pattern>${symbol_dollar}{FILE_LOG_PATTERN}</pattern>
+        </encoder>
+
+        <!-- 可选项 设置 time 字段呈现的格式 -->
+        <timeFormat>yyyy-MM-dd'T'HH:mmZ</timeFormat>
+        <!-- 可选项 设置 time 字段呈现的时区 -->
+        <timeZone>UTC</timeZone>
+        <!-- 可选项 设置是否要添加 Location 字段（日志打印位置），默认为 true -->
+        <includeLocation>true</includeLocation>
+        <!-- 可选项 当 encoder 不为空时，是否要包含 message 字段，默认为 true -->
+        <includeMessage>true</includeMessage>
+        <!-- 可选项 可注入自定义的 credentialsProvider，允许用户自行实现 AK 获取逻辑 -->
+        <!-- 参见 "自定义凭证提供者 CredentialsProvider" 一节介绍 -->
+        <!--        <credentialsProviderBuilder-->
+        <!--                class="com.aliyun.openservices.log.logback.example.ExampleCredentialsProviderBuilder">-->
+        <!--            <accessKeyId>${symbol_dollar}{accessKeyId}</accessKeyId>-->
+        <!--            <accessKeySecret>${symbol_dollar}{accessKeySecret}</accessKeySecret>-->
+        <!--        </credentialsProviderBuilder>-->
+        <!-- 可选项，exception 堆栈最大记录长度，超出此长度会被截断，默认值为 500 -->
+        <maxThrowable>500</maxThrowable>
+        <!-- 可选项 设置上传到 sls 的日志时间精度，支持秒 s 与毫秒 ms，默认为秒 -->
+        <timePrecision>s</timePrecision>
+    </appender>
+
+
+    <include resource="logback/logback-${symbol_dollar}{SPRING_PROFILES_ACTIVE}.xml"/>
+</configuration>

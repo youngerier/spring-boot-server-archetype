@@ -1,0 +1,83 @@
+{
+  "groups": [
+    {
+      "name": "jwt.auth",
+      "type": "com.qbit.white.label.starter.jwt.properties.JwtAuthProperties",
+      "sourceType": "com.qbit.white.label.starter.jwt.properties.JwtAuthProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "jwt.auth.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable JWT authentication functionality.",
+      "defaultValue": true
+    },
+    {
+      "name": "jwt.auth.secret-key",
+      "type": "java.lang.String",
+      "description": "JWT access token secret key for signing tokens.",
+      "defaultValue": "booster111111111000000000booster111111111000000000booster111111111000000000"
+    },
+    {
+      "name": "jwt.auth.refresh-secret-key",
+      "type": "java.lang.String",
+      "description": "JWT refresh token secret key for signing refresh tokens.",
+      "defaultValue": "refresh111111111000000000refresh111111111000000000refresh111111111000000000"
+    },
+    {
+      "name": "jwt.auth.access-token-expiration-days",
+      "type": "java.lang.Integer",
+      "description": "Access token expiration time in days.",
+      "defaultValue": 10
+    },
+    {
+      "name": "jwt.auth.refresh-token-expiration-days",
+      "type": "java.lang.Integer",
+      "description": "Refresh token expiration time in days.",
+      "defaultValue": 30
+    },
+    {
+      "name": "jwt.auth.login-path-pattern",
+      "type": "java.lang.String",
+      "description": "Login path pattern for authentication endpoints.",
+      "defaultValue": "/{appType}/api/v1/auth/login/{loginMethod}"
+    },
+    {
+      "name": "jwt.auth.public-paths",
+      "type": "java.lang.String[]",
+      "description": "Paths that don't require authentication.",
+      "defaultValue": [
+        "/actuator/**",
+        "/error",
+        "/js/**",
+        "/css/**",
+        "/images/**",
+        "/auth/token/**"
+      ]
+    },
+    {
+      "name": "jwt.auth.authenticated-only-paths",
+      "type": "java.lang.String[]",
+      "description": "Paths that require authentication but no specific permissions.",
+      "defaultValue": [
+        "/api/v1/member/rbac/my-roles",
+        "/api/v1/member/rbac/my-permissions",
+        "/api/v1/member/rbac/check-permission",
+        "/api/v1/member/rbac/check-role",
+        "/api/v1/member/rbac/check-resource-access",
+        "/api/v1/member/rbac/batch-check-permissions",
+        "/api/v1/member/rbac/batch-check-roles"
+      ]
+    },
+    {
+      "name": "jwt.auth.auth-paths",
+      "type": "java.lang.String[]",
+      "description": "Auth related path patterns (login/token operations).",
+      "defaultValue": [
+        "/auth/login/**",
+        "/auth/token/**"
+      ]
+    }
+  ]
+}

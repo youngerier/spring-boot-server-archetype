@@ -1,0 +1,153 @@
+server:
+  port: 8089
+  shutdown: graceful
+app:
+  config:
+    app-type: admin
+
+spring:
+  messages:
+    encoding: UTF-8
+    basename: i18n/messages
+  cloud:
+    nacos:
+      config:
+        import-check:
+          enabled: false
+        enabled: false
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+  datasource:
+    url: jdbc:postgresql://localhost:1921/web
+    driver-class-name: org.postgresql.Driver
+    username: admin
+    password: admin
+    hikari:
+      idle-timeout: 60000
+      minimum-idle: 1
+  sql:
+    init:
+      mode: always
+      # IMPORTANT
+      continue-on-error: false
+  application:
+    name: AdminApplication
+  dynamic:
+    tp:
+      tomcat-tp:
+        core-pool-size: 10
+      enabled-banner: false
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 5
+      redisson:
+        config: |
+          singleServerConfig:
+            address: "redis://localhost:6379"
+            database: 5
+
+logging:
+  level:
+    org.apache.dubbo.spring.security.jackson.ObjectMapperCodec: ERROR
+# JWT Authentication Configuration
+jwt:
+  secret-key: booster111111111000000000booster111111111000000000booster111111111000000000
+  refresh-secret-key: refresh111111111000000000refresh111111111000000000refresh111111111000000000
+  access-token-expiration-days: 10
+  refresh-token-expiration-days: 30
+
+auth:
+  security:
+    enabled: true
+    public-paths:
+      - "/actuator/**"
+      - "/favicon.ico"
+      - "/error"
+      - "/js/**"
+      - "/css/**"
+      - "/images/**"
+      - "/auth/token/**"
+      - "/doc.html/**"
+      - "/swagger-ui/**"
+      - "/swagger-ui.html"
+      - "/swagger-resources/**"
+      - "/v3/api-docs/**"
+      - "/webjars/**"
+      - "/common/api/v1/notify/code"
+      - "/common/api/v1/notify/verify"
+      - "/admin/api/v1/tenant-profile/query"
+      - "/admin/api/v1/user/forgot-password"
+      - "/common/api/v1/tenant-customer-config/tenant-config/query"
+      - "/admin/api/v1/open-api/webhook"
+      - "/admin/api/v1/tenant-brand/update"
+      - "/admin/api/v1/file/upload"
+      - "/common/api/v1/auth/captcha/**"
+      - "/admin/api/v1/card/wallet/transaction/sync"
+    authenticated-only-paths:
+      - "/api/v1/member/rbac/my-roles"
+      - "/api/v1/member/rbac/my-permissions"
+      - "/api/v1/member/rbac/check-permission"
+      - "/api/v1/member/rbac/check-role"
+      - "/api/v1/member/rbac/check-resource-access"
+      - "/api/v1/member/rbac/batch-check-permissions"
+      - "/api/v1/member/rbac/batch-check-roles"
+
+
+# Actuator配置，用于支持Kubernetes的liveness和readiness探针
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true  # 启用Kubernetes探针支持
+  health:
+    nacos-config:
+      enabled: false
+    discovery:
+      enabled: false
+# 测试环境
+qbit:
+  secret: secret
+  gateway: secret
+
+
+context:
+  initializer:
+    classes: com.qbit.scan2pay.infra.business.context.AppContextInitializer
+
+aliyun:
+  accessKeyId : secret
+  accessKeySecret: secret
+  sls:
+    endpoint: https://cn-shenzhen.log.aliyuncs.com
+    accessKeyId: secret
+    accessKeySecret: secret
+    project: test-dev-service
+    logStore: test-scan2pay
+aws:
+  accessKeyId : secret
+  secretAccessKey : secret
+
+dromara:
+  x-file-storage: #文件存储配置
+    default-platform: aliyun-oss-1 #默认使用的存储平台
+    thumbnail-suffix: ".min.jpg" #缩略图后缀，例如【.min.jpg】【.png】
+    aliyun-oss:
+      - platform: aliyun-oss-1 # 存储平台标识
+        enable-storage: true  # 启用存储
+        access-key: secret
+        secret-key: secret
+        end-point: oss-cn-hangzhou.aliyuncs.com
+        bucket-name: test-mobile-white-upload
+        domain: https://test-mobile-white-upload.oss-cn-hangzhou.aliyuncs.com/ # 访问域名，注意“/”结尾，例如：https://abc.oss-cn-shanghai.aliyuncs.com/
+        base-path: general/ # 基础路径
