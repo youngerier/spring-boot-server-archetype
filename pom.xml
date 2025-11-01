@@ -25,10 +25,10 @@
 
   <developers>
     <developer>
-      <name>Spring</name>
-      <email>ask@spring.io</email>
-      <organization>VMware, Inc.</organization>
-      <organizationUrl>https://www.spring.io</organizationUrl>
+      <name>ziggle</name>
+      <email>muyue1125@gmail.com</email>
+      <organization>youngerier</organization>
+      <organizationUrl>https://github.com/youngerier</organizationUrl>
     </developer>
   </developers>
 
@@ -40,6 +40,6 @@
   </licenses>
 
   <scm>
-    <url>https://github.com/spring-projects/spring-boot/scan2pay-server</url>
+    <url>https://github.com/youngerier/spring-boot-server-archetype</url>
   </scm>
 </project>
