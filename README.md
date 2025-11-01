@@ -32,9 +32,9 @@ mvn -DskipTests clean install
   ```bash
   mvn archetype:generate \
     -DarchetypeCatalog=local \
-    -DarchetypeGroupId=<你的-archetypeGroupId> \
-    -DarchetypeArtifactId=<你的-archetypeArtifactId> \
-    -DarchetypeVersion=<你的-archetypeVersion> \
+    -DarchetypeGroupId=io.github.youngerier \
+    -DarchetypeArtifactId=spring-boot-server-archetype \
+    -DarchetypeVersion=0.0.1-SNAPSHOT \
     -DgroupId=com.example \
     -DartifactId=my-app \
     -Dpackage=com.example.myapp \
