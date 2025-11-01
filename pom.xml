@@ -1,45 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.github.youngerier</groupId>
-  <artifactId>spring-boot-server-archetype</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>maven-archetype</packaging>
+    <groupId>io.github.youngerier</groupId>
+    <artifactId>spring-boot-server-archetype</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>maven-archetype</packaging>
 
-  <name>spring-boot-server-archetype</name>
+    <name>spring-boot-server-archetype</name>
 
-  <build>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.archetype</groupId>
-        <artifactId>archetype-packaging</artifactId>
-        <version>3.4.1</version>
-      </extension>
-    </extensions>
-  </build>
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.archetype</groupId>
+                <artifactId>archetype-packaging</artifactId>
+                <version>3.4.1</version>
+            </extension>
+        </extensions>
+    </build>
 
-  <description>spring boot server archetype</description>
+    <description>spring boot server archetype</description>
 
-  <url>https://spring.io/projects/spring-boot/scan2pay-server</url>
+    <url>https://spring.io/projects/spring-boot/scan2pay-server</url>
 
-  <developers>
-    <developer>
-      <name>ziggle</name>
-      <email>muyue1125@gmail.com</email>
-      <organization>youngerier</organization>
-      <organizationUrl>https://github.com/youngerier</organizationUrl>
-    </developer>
-  </developers>
+    <developers>
+        <developer>
+            <name>ziggle</name>
+            <email>muyue1125@gmail.com</email>
+            <organization>youngerier</organization>
+            <organizationUrl>https://github.com/youngerier</organizationUrl>
+        </developer>
+    </developers>
 
-  <licenses>
-    <license>
-      <name>Apache License, Version 2.0</name>
-      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
-    </license>
-  </licenses>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
 
-  <scm>
-    <url>https://github.com/youngerier/spring-boot-server-archetype</url>
-  </scm>
+    <scm>
+        <url>https://github.com/youngerier/spring-boot-server-archetype</url>
+    </scm>
+
+    <profiles>
+        <!-- 本地开发profile - 跳过GPG签名 -->
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <maven.javadoc.skip>true</maven.javadoc.skip>
+                <maven.source.skip>true</maven.source.skip>
+            </properties>
+        </profile>
+
+        <!-- 发布profile - 启用GPG签名和完整构建 -->
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <!-- GPG Plugin for release -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
