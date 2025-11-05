@@ -1,0 +1,29 @@
+# Maven/Java build artifacts
+**/target/
+out/
+
+# Logs and temporary files
+logs/
+*.log
+*.tmp
+*.bak
+*.swp
+*~
+
+# IDE configuration
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Generated POM cache from flatten-maven-plugin
+.flattened-pom.xml
+pom-xml-flattened
