@@ -9,7 +9,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>${artifactId}</artifactId>
+    <artifactId>app-web-member</artifactId>
 
 
     <dependencies>
