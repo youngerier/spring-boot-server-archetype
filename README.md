@@ -13,6 +13,18 @@
 
 ---
 
+## 版本管理（revision）
+- 模板策略：
+  - 生成项目的所有 `pom.xml` 会保留字面量 `<version>${revision}</version>`，不会在生成阶段替换。
+  - 根模板 `pom.xml` 的 `<properties>` 中定义 `<revision>${version}</revision>`，使用原型的模板变量 `version` 作为默认版本源。
+- 使用方式：
+  - 在生成项目时通过 `-Dversion=1.0.0` 设定默认的 `revision` 值（这会被写入根 POM 的 `<properties><revision>...</revision></properties>`）。
+  - 在构建或 CI 中可覆盖：`mvn -Drevision=1.2.3 clean package`（无需改动 POM，即可注入发布版本）。
+- 说明：
+  - `${artifactId}`、`${groupId}`、`${package}`、`${version}` 等是 Archetype 的模板变量，发生在“生成阶段”。
+  - `${revision}` 是 Maven 属性，占位在 POM 中，发生在“构建阶段”。
+  - 已启用 `flatten-maven-plugin`（在模板根 POM 中），便于发布时将有效版本等信息展平。
+
 ## 本地安装（开发/验证）
 在本项目根目录执行：
 
@@ -34,7 +46,7 @@ mvn -DskipTests clean install
     -DarchetypeCatalog=local \
     -DarchetypeGroupId=io.github.youngerier \
     -DarchetypeArtifactId=spring-boot-server-archetype \
-    -DarchetypeVersion=0.0.1-SNAPSHOT \
+    -DarchetypeVersion=0.0.1 \
     -DgroupId=com.example \
     -DartifactId=my-app \
     -Dpackage=com.example.myapp \
@@ -144,6 +156,10 @@ mvn clean package
 - 模板变量替换与文件名：
   - Archetype 会根据 `artifactId/groupId/package` 等自动替换模板中的变量。
   - 如需新增或调整变量，请在 `src/main/resources/META-INF/maven/archetype-metadata.xml` 中配置。
+- 版本占位与注入：
+  - 生成项目中 `<version>${revision}</version>` 是字面量（不在生成阶段替换）。
+  - 根 POM `<properties><revision>${version}</revision></properties>` 会写入你生成时的 `-Dversion` 值。
+  - 可在 CI 构建时覆盖：`mvn -Drevision=x.y.z clean package`。
 - 模板更新后不生效：
   - 重新执行 `mvn clean install` 更新本地仓库。
   - 若是远程使用，重新 `mvn deploy` 发布新版本，并更新使用时的 `archetypeVersion`。
