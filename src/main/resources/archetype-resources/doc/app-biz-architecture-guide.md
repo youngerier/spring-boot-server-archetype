@@ -23,7 +23,7 @@ app-biz/
 每个子模块都遵循统一的分包结构：
 
 ```
-com.qbit.white.label.biz.{domain}/
+${package}.biz.{domain}/
 ├── constant/              # 常量定义
 ├── config/               # 配置类        - 这里最好放到上层模块
 ├── aspect/               # 切面类        - 这里最好放到上层模块
