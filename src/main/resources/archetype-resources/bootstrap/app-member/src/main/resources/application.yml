@@ -119,7 +119,7 @@ qbit:
 
 context:
   initializer:
-    classes: com.qbit.scan2pay.infra.business.context.AppContextInitializer
+    classes: ${package}.infra.business.context.AppContextInitializer
 
 aws:
   accessKeyId : secret

@@ -1,1 +1,1 @@
-com.qbit.scan2pay.starter.jwt.autoconfigure.JwtSecurityAutoConfiguration
+${package}.starter.jwt.autoconfigure.JwtSecurityAutoConfiguration
