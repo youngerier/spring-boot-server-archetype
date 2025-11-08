@@ -9,6 +9,29 @@ import java.math.RoundingMode;
 import java.util.Objects;
 import java.util.Currency;
 
+/**
+ * 金额值对象，包含数值与币种信息。
+ * <p>
+ * 使用 {@link java.math.BigDecimal} 存储金额，并根据币种的默认小数位进行归一化（如 USD=2，JPY=0）。
+ * 类为不可变与线程安全，所有加减比较等运算均要求同币种，否则抛出异常以防止业务错误。
+ * </p>
+ * <p>
+ * 核心能力：
+ * <ul>
+ *   <li>构造：{@code of(BigDecimal, Currency)}、{@code of(String, Currency)}、{@code ofMinor(long, Currency)}、{@code zero(Currency)}</li>
+ *   <li>运算：{@code add}、{@code subtract}、{@code multiply}、{@code negate}</li>
+ *   <li>判断：{@code isZero}、{@code isPositive}、{@code isNegative}</li>
+ *   <li>比较与转换：{@code compareTo}（同币种）、{@code toMinorUnitsExact}</li>
+ * </ul>
+ * </p>
+ * <p>
+ * 示例：
+ * <pre>
+ * Money usd = Money.of(new BigDecimal("12.34"), Currency.getInstance("USD"));
+ * Money sum = usd.add(Money.ofMinor(50, Currency.getInstance("USD"))); // USD 12.84
+ * </pre>
+ * </p>
+ */
 public final class Money implements Comparable<Money> {
     private static final RoundingMode ROUNDING = RoundingMode.HALF_UP;
     private final BigDecimal amount; // normalized to currency fraction digits
