@@ -7,6 +7,7 @@ package ${package}.infra.toolkits.money;
 import java.util.Objects;
 
 import lombok.Getter;
+import lombok.AllArgsConstructor;
 
 @Getter
 @AllArgsConstructor

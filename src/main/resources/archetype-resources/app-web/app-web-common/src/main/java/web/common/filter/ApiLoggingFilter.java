@@ -87,18 +87,6 @@ public class ApiLoggingFilter extends CommonsRequestLoggingFilter implements Ord
         return false;
     }
 
-    private boolean isLogIgnored(Object handler) {
-        if (handler instanceof HandlerMethod) {
-            HandlerMethod hm = (HandlerMethod) handler;
-            if (AnnotatedElementUtils.hasAnnotation(hm.getMethod(), ${package}.web.common.aop.LogIgnore.class)) {
-                return true;
-            }
-            Class<?> beanType = hm.getBeanType();
-            return AnnotatedElementUtils.hasAnnotation(beanType, ${package}.web.common.aop.LogIgnore.class);
-        }
-        return false;
-    }
-
     @Override
     public int getOrder() {
         return WebFilterOrdered.TraceFilter.getOrder() + 40;
