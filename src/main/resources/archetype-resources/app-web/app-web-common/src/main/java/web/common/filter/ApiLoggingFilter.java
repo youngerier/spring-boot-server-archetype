@@ -55,8 +55,6 @@ public class ApiLoggingFilter extends CommonsRequestLoggingFilter implements Ord
         setAfterMessagePrefix("");
     }
 
-
-
     @Override
     protected boolean shouldLog(HttpServletRequest request) {
         Object handler = request.getAttribute(HandlerMapping.BEST_MATCHING_HANDLER_ATTRIBUTE);
@@ -65,6 +63,12 @@ public class ApiLoggingFilter extends CommonsRequestLoggingFilter implements Ord
         }
         return true;
     }
+
+    @Override
+    protected void afterRequest(HttpServletRequest request, String message) {
+        log.info(message);
+    }
+
 
     private boolean isLogIgnored(Object handler) {
         if (handler instanceof HandlerMethod) {
