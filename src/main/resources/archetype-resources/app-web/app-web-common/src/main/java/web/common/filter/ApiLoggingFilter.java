@@ -131,23 +131,14 @@ public class ApiLoggingFilter extends OncePerRequestFilter implements Ordered {
     private String formatHeaders(HttpServletRequest request) {
         StringBuilder sb = new StringBuilder();
         Enumeration<String> names = request.getHeaderNames();
-        if (names != null) {
-            while (names.hasMoreElements()) {
-                String name = names.nextElement();
-                sb.append(name).append(": ");
-                Enumeration<String> values = request.getHeaders(name);
-                if (values != null) {
-                    boolean first = true;
-                    while (values.hasMoreElements()) {
-                        if (!first) {
-                            sb.append(", ");
-                        }
-                        sb.append(values.nextElement());
-                        first = false;
-                    }
-                }
-                sb.append("${symbol_escape}n");
-            }
+        if (names == null) {
+            return sb.toString();
+        }
+        while (names.hasMoreElements()) {
+            String name = names.nextElement();
+            Enumeration<String> values = request.getHeaders(name);
+            String joined = (values == null) ? "" : String.join(", ", java.util.Collections.list(values));
+            sb.append(name).append(": ").append(joined).append("${symbol_escape}n");
         }
         return sb.toString();
     }

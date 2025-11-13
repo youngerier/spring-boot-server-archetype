@@ -46,11 +46,39 @@ mvn -DskipTests clean install
     -DarchetypeCatalog=local \
     -DarchetypeGroupId=io.github.youngerier \
     -DarchetypeArtifactId=spring-boot-server-archetype \
-    -DarchetypeVersion=0.0.2 \
+    -DarchetypeVersion=0.0.3 \
     -DgroupId=com.example \
     -DartifactId=my-app \
     -Dpackage=com.example.myapp \
     -Dversion=0.1.0-SNAPSHOT \
+    -DinteractiveMode=false
+  ```
+
+  Windows（PowerShell）示例：
+  ```powershell
+  mvn archetype:generate `
+    -DarchetypeCatalog=local `
+    -DarchetypeGroupId=io.github.youngerier `
+    -DarchetypeArtifactId=spring-boot-server-archetype `
+    -DarchetypeVersion=0.0.3 `
+    -DgroupId=com.example `
+    -DartifactId=my-app `
+    -Dpackage=com.example.myapp `
+    -Dversion=0.1.0-SNAPSHOT `
+    -DinteractiveMode=false
+  ```
+
+  Windows（CMD）示例：
+  ```cmd
+  mvn archetype:generate ^
+    -DarchetypeCatalog=local ^
+    -DarchetypeGroupId=io.github.youngerier ^
+    -DarchetypeArtifactId=spring-boot-server-archetype ^
+    -DarchetypeVersion=0.0.3 ^
+    -DgroupId=com.example ^
+    -DartifactId=my-app ^
+    -Dpackage=com.example.myapp ^
+    -Dversion=0.1.0-SNAPSHOT ^
     -DinteractiveMode=false
   ```
 
