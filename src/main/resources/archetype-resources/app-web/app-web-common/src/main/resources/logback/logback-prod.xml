@@ -7,6 +7,10 @@
         <appender-ref ref="CONSOLE_ASYNC"/>
         <appender-ref ref="FILE_ASYNC"/>
         <appender-ref ref="ERROR_FILE_ASYNC"/>
-        <appender-ref ref="ALI_YUN_SLS"/>
+        <if condition='property("SLS_ENDPOINT") != null &amp;&amp; !property("SLS_ENDPOINT").isEmpty()'>
+            <then>
+                <appender-ref ref="ALI_YUN_SLS"/>
+            </then>
+        </if>
     </root>
 </included>
