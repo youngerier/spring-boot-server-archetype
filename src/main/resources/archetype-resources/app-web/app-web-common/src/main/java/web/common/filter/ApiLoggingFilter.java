@@ -11,12 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.util.ContentCachingRequestWrapper;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.core.annotation.AnnotatedElementUtils;
-import org.springframework.util.StopWatch;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -44,55 +42,35 @@ import ${package}.web.common.aop.LogIgnore;
 @Slf4j
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE + 40)
-public class ApiLoggingFilter extends OncePerRequestFilter implements Ordered {
+public class ApiLoggingFilter extends CommonsRequestLoggingFilter implements Ordered {
 
-    private static final int MAX_BODY_LENGTH = 4096;
+    public ApiLoggingFilter() {
+        setIncludeQueryString(true);
+        setIncludeHeaders(true);
+        setIncludeClientInfo(true);
+        setIncludePayload(true);
+        setMaxPayloadLength(4096);
+        setBeforeMessagePrefix("");
+        setAfterMessagePrefix("");
+    }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+    protected boolean shouldLog(HttpServletRequest request) {
+        return true; // 统一在 afterRequest 时再决定是否跳过
+    }
 
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
-        try {
-            filterChain.doFilter(requestWrapper, response);
-        } finally {
-            if (stopWatch.isRunning()) {
-                stopWatch.stop();
-            }
-            long elapsedMs = stopWatch.getTotalTimeMillis();
+    @Override
+    protected void beforeRequest(HttpServletRequest request, String message) {
+        // 不打印 before，避免重复输出
+    }
 
-            // 若命中的处理器上标注了 LogIgnore，则忽略日志打印
-            Object handler = requestWrapper.getAttribute(HandlerMapping.BEST_MATCHING_HANDLER_ATTRIBUTE);
-            if (isLogIgnored(handler)) {
-                return;
-            }
-
-            String method = requestWrapper.getMethod();
-            String fullUrl = buildFullUrl(requestWrapper);
-            String contentType = requestWrapper.getContentType();
-            String headersBlock = formatHeaders(requestWrapper);
-            String responseHeadersBlock = formatResponseHeaders(response);
-            String body = getRequestBody(requestWrapper, contentType);
-
-            StringBuilder sb = new StringBuilder();
-            sb.append(method).append(" ").append(fullUrl);
-            if (contentType != null && !contentType.isEmpty()) {
-                sb.append("${symbol_escape}ncontent-type: ").append(contentType);
-            }
-            if (!headersBlock.isEmpty()) {
-                sb.append("${symbol_escape}nheaders:${symbol_escape}n").append(headersBlock.trim());
-            }
-            if (!responseHeadersBlock.isEmpty()) {
-                sb.append("${symbol_escape}nresponse-headers:${symbol_escape}n").append(responseHeadersBlock.trim());
-            }
-            if (body != null && !body.isEmpty()) {
-                sb.append("${symbol_escape}n${symbol_escape}n").append(body);
-            }
-
-            log.info("{}", sb.toString());
+    @Override
+    protected void afterRequest(HttpServletRequest request, String message) {
+        Object handler = request.getAttribute(HandlerMapping.BEST_MATCHING_HANDLER_ATTRIBUTE);
+        if (isLogIgnored(handler)) {
+            return;
         }
+        log.info("{}", message);
     }
 
     private boolean isLogIgnored(Object handler) {
@@ -109,52 +87,16 @@ public class ApiLoggingFilter extends OncePerRequestFilter implements Ordered {
         return false;
     }
 
-    private String buildFullUrl(HttpServletRequest request) {
-        String url = request.getRequestURL().toString();
-        String query = request.getQueryString();
-        return (query == null || query.isEmpty()) ? url : (url + "?" + query);
-    }
-
-    private String getRequestBody(ContentCachingRequestWrapper requestWrapper, String contentType) {
-        byte[] content = requestWrapper.getContentAsByteArray();
-        if (content.length == 0) {
-            return null;
+    private boolean isLogIgnored(Object handler) {
+        if (handler instanceof HandlerMethod) {
+            HandlerMethod hm = (HandlerMethod) handler;
+            if (AnnotatedElementUtils.hasAnnotation(hm.getMethod(), ${package}.web.common.aop.LogIgnore.class)) {
+                return true;
+            }
+            Class<?> beanType = hm.getBeanType();
+            return AnnotatedElementUtils.hasAnnotation(beanType, ${package}.web.common.aop.LogIgnore.class);
         }
-        String raw = new String(content, StandardCharsets.UTF_8);
-        // 限制长度，避免日志过大
-        if (raw.length() > MAX_BODY_LENGTH) {
-            raw = raw.substring(0, MAX_BODY_LENGTH) + "...";
-        }
-        return raw;
-    }
-
-    private String formatHeaders(HttpServletRequest request) {
-        StringBuilder sb = new StringBuilder();
-        Enumeration<String> names = request.getHeaderNames();
-        if (names == null) {
-            return sb.toString();
-        }
-        while (names.hasMoreElements()) {
-            String name = names.nextElement();
-            Enumeration<String> values = request.getHeaders(name);
-            String joined = (values == null) ? "" : String.join(", ", java.util.Collections.list(values));
-            sb.append(name).append(": ").append(joined).append("${symbol_escape}n");
-        }
-        return sb.toString();
-    }
-
-    private String formatResponseHeaders(HttpServletResponse response) {
-        StringBuilder sb = new StringBuilder();
-        java.util.Collection<String> names = response.getHeaderNames();
-        if (names == null || names.isEmpty()) {
-            return sb.toString();
-        }
-        for (String name : names) {
-            java.util.Collection<String> values = response.getHeaders(name);
-            String joined = (values == null || values.isEmpty()) ? "" : String.join(", ", values);
-            sb.append(name).append(": ").append(joined).append("${symbol_escape}n");
-        }
-        return sb.toString();
+        return false;
     }
 
     @Override
