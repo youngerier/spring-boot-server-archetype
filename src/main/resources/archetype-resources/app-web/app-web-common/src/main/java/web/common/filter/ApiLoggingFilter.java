@@ -13,12 +13,17 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.core.annotation.AnnotatedElementUtils;
+import org.springframework.util.StopWatch;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 
 import ${package}.web.common.filter.order.WebFilterOrdered;
+import ${package}.web.common.aop.LogIgnore;
 
 /**
  * 简化版接口调用日志过滤器（格式化输出 + 全部请求头）
@@ -47,12 +52,22 @@ public class ApiLoggingFilter extends OncePerRequestFilter implements Ordered {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        long startTime = System.currentTimeMillis();
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
         ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
         try {
             filterChain.doFilter(requestWrapper, response);
         } finally {
-            long elapsedMs = System.currentTimeMillis() - startTime;
+            if (stopWatch.isRunning()) {
+                stopWatch.stop();
+            }
+            long elapsedMs = stopWatch.getTotalTimeMillis();
+
+            // 若命中的处理器上标注了 LogIgnore，则忽略日志打印
+            Object handler = requestWrapper.getAttribute(HandlerMapping.BEST_MATCHING_HANDLER_ATTRIBUTE);
+            if (isLogIgnored(handler)) {
+                return;
+            }
 
             String method = requestWrapper.getMethod();
             String fullUrl = buildFullUrl(requestWrapper);
@@ -78,6 +93,20 @@ public class ApiLoggingFilter extends OncePerRequestFilter implements Ordered {
 
             log.info("{}", sb.toString());
         }
+    }
+
+    private boolean isLogIgnored(Object handler) {
+        if (handler instanceof HandlerMethod) {
+            HandlerMethod hm = (HandlerMethod) handler;
+            // 方法级别标注忽略
+            if (AnnotatedElementUtils.hasAnnotation(hm.getMethod(), LogIgnore.class)) {
+                return true;
+            }
+            // 控制器类级别标注忽略
+            Class<?> beanType = hm.getBeanType();
+            return AnnotatedElementUtils.hasAnnotation(beanType, LogIgnore.class);
+        }
+        return false;
     }
 
     private String buildFullUrl(HttpServletRequest request) {
@@ -126,22 +155,13 @@ public class ApiLoggingFilter extends OncePerRequestFilter implements Ordered {
     private String formatResponseHeaders(HttpServletResponse response) {
         StringBuilder sb = new StringBuilder();
         java.util.Collection<String> names = response.getHeaderNames();
-        if (names != null) {
-            for (String name : names) {
-                sb.append(name).append(": ");
-                java.util.Collection<String> values = response.getHeaders(name);
-                if (values != null && !values.isEmpty()) {
-                    boolean first = true;
-                    for (String v : values) {
-                        if (!first) {
-                            sb.append(", ");
-                        }
-                        sb.append(v);
-                        first = false;
-                    }
-                }
-                sb.append("${symbol_escape}n");
-            }
+        if (names == null || names.isEmpty()) {
+            return sb.toString();
+        }
+        for (String name : names) {
+            java.util.Collection<String> values = response.getHeaders(name);
+            String joined = (values == null || values.isEmpty()) ? "" : String.join(", ", values);
+            sb.append(name).append(": ").append(joined).append("${symbol_escape}n");
         }
         return sb.toString();
     }
