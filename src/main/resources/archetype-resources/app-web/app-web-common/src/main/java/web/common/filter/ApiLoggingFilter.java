@@ -15,6 +15,7 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.core.annotation.AnnotatedElementUtils;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -54,23 +55,15 @@ public class ApiLoggingFilter extends CommonsRequestLoggingFilter implements Ord
         setAfterMessagePrefix("");
     }
 
+
+
     @Override
     protected boolean shouldLog(HttpServletRequest request) {
-        return true; // 统一在 afterRequest 时再决定是否跳过
-    }
-
-    @Override
-    protected void beforeRequest(HttpServletRequest request, String message) {
-        // 不打印 before，避免重复输出
-    }
-
-    @Override
-    protected void afterRequest(HttpServletRequest request, String message) {
         Object handler = request.getAttribute(HandlerMapping.BEST_MATCHING_HANDLER_ATTRIBUTE);
         if (isLogIgnored(handler)) {
-            return;
+            return false;
         }
-        log.info("{}", message);
+        return true;
     }
 
     private boolean isLogIgnored(Object handler) {
