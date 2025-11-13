@@ -21,7 +21,7 @@ import java.io.IOException;
  * 请求流可重复读
  */
 @Order(Ordered.HIGHEST_PRECEDENCE)
-@WebFilter(filterName = "traceIdFilter", urlPatterns = "/*")
+@WebFilter(filterName = "contentCachingRequestFilter", urlPatterns = "/*")
 @Component
 public class ContentCachingRequestFilter extends OncePerRequestFilter {
 

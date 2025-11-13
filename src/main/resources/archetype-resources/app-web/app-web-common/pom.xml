@@ -120,6 +120,10 @@
         <!-- Business Logic Dependencies -->
         <dependency>
             <groupId>${groupId}</groupId>
+            <artifactId>app-infra-toolkit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${groupId}</groupId>
             <artifactId>app-biz-user</artifactId>
         </dependency>
         <dependency>

@@ -16,6 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.UUID;
+import ${package}.infra.toolkits.logging.MdcTraceContext;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @WebFilter(filterName = "traceIdFilter", urlPatterns = "/*")
@@ -26,18 +27,10 @@ public class TraceFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
-        try {
-            // 生成或获取 Trace ID
-            String traceId = getOrCreateTraceId(request);
-            // 存入 MDC（绑定到当前线程）
-            MDC.put(TRACE_ID, traceId);
-            // 将 traceId 传递到响应头，方便调用链追踪
-            response.setHeader(TRACE_ID, traceId);
-            // 继续请求处理
+        String traceId = getOrCreateTraceId(request);
+        response.setHeader(TRACE_ID, traceId);
+        try (MdcTraceContext ignored = MdcTraceContext.put(TRACE_ID, traceId)) {
             chain.doFilter(request, response);
-        } finally {
-            // 清除 MDC，防止线程池复用时污染其他请求
-            MDC.clear();
         }
     }
 
@@ -48,4 +41,3 @@ public class TraceFilter extends OncePerRequestFilter {
     }
 
 }
-
