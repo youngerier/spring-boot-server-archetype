@@ -21,7 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @JdbcTest
-@ActiveProfiles("db")
+@ActiveProfiles("h2")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({
         MybatisConfiguration.class,

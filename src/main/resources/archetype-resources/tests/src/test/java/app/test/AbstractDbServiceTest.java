@@ -33,7 +33,7 @@ import javax.sql.DataSource;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @EnableConfigurationProperties
 @TestPropertySource(locations = {
-        "classpath:application-db.properties",
+        "classpath:application-h2.properties",
         "classpath:application-test.properties"
 })
 public class AbstractDbServiceTest {
