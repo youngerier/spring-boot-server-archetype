@@ -24,16 +24,16 @@
         </dependency>
         <dependency>
             <groupId>${groupId}</groupId>
-            <artifactId>app-core</artifactId>
+            <artifactId>${appPrefix}-core</artifactId>
         </dependency>
         <dependency>
             <groupId>${groupId}</groupId>
-            <artifactId>app-web-common</artifactId>
+            <artifactId>${appPrefix}-web-common</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${groupId}</groupId>
-            <artifactId>app-admin</artifactId>
+            <artifactId>${appPrefix}-admin</artifactId>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>

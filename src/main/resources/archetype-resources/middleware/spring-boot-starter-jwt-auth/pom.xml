@@ -67,7 +67,7 @@
         <!-- Required infra dependencies -->
         <dependency>
             <groupId>${groupId}</groupId>
-            <artifactId>app-infra-business</artifactId>
+            <artifactId>${appPrefix}-infra-business</artifactId>
         </dependency>
     </dependencies>
 

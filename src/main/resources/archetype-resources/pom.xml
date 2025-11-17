@@ -333,74 +333,74 @@
             <!-- 内部模块依赖 -->
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>app-biz</artifactId>
+                <artifactId>${appPrefix}-biz</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>app-infra-business</artifactId>
+                <artifactId>${appPrefix}-infra-business</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>app-biz-user</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>app-biz-system</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>app-api-system</artifactId>
+                <artifactId>${appPrefix}-biz-user</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>app-core</artifactId>
+                <artifactId>${appPrefix}-biz-system</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>app-api-user</artifactId>
+                <artifactId>${appPrefix}-api-system</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${appPrefix}-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>app-api-merchant</artifactId>
+                <artifactId>${appPrefix}-api-user</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>app-infra-toolkit</artifactId>
+                <artifactId>${appPrefix}-api-merchant</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>app-web-common</artifactId>
+                <artifactId>${appPrefix}-infra-toolkit</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>app-web-admin</artifactId>
+                <artifactId>${appPrefix}-web-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>app-web-member</artifactId>
+                <artifactId>${appPrefix}-web-admin</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>app-biz-merchant</artifactId>
+                <artifactId>${appPrefix}-web-member</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>app-web</artifactId>
+                <artifactId>${appPrefix}-biz-merchant</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${appPrefix}-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -410,7 +410,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>app-admin</artifactId>
+                <artifactId>${appPrefix}-admin</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

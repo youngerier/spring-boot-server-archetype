@@ -6,6 +6,9 @@
     <requiredProperty key="rootArtifactId">
       <defaultValue>${artifactId}</defaultValue>
     </requiredProperty>
+    <requiredProperty key="appPrefix">
+      <defaultValue>app</defaultValue>
+    </requiredProperty>
   </requiredProperties>
   <fileSets>
     <fileSet filtered="true" encoding="UTF-8">
@@ -52,7 +55,7 @@
     </fileSet>
   </fileSets>
   <modules>
-    <module id="app-infra" dir="app-infra" name="app-infra">
+    <module id="app-infra" dir="__appPrefix__-infra" name="__appPrefix__-infra">
       <fileSets>
         <fileSet filtered="true" encoding="UTF-8">
           <includes>
@@ -61,7 +64,7 @@
         </fileSet>
       </fileSets>
       <modules>
-        <module id="app-infra-business" dir="app-infra-business" name="app-infra-business">
+        <module id="app-infra-business" dir="__appPrefix__-infra-business" name="__appPrefix__-infra-business">
           <fileSets>
             <fileSet filtered="true" packaged="true" encoding="UTF-8">
               <directory>src/main/java</directory>
@@ -76,7 +79,7 @@
             </fileSet>
           </fileSets>
         </module>
-        <module id="app-infra-toolkit" dir="app-infra-toolkit" name="app-infra-toolkit">
+        <module id="app-infra-toolkit" dir="__appPrefix__-infra-toolkit" name="__appPrefix__-infra-toolkit">
           <fileSets>
             <fileSet filtered="true" packaged="true" encoding="UTF-8">
               <directory>src/main/java</directory>
@@ -93,7 +96,7 @@
         </module>
       </modules>
     </module>
-    <module id="app-api" dir="app-api" name="app-api">
+    <module id="app-api" dir="__appPrefix__-api" name="__appPrefix__-api">
       <fileSets>
         <fileSet filtered="true" encoding="UTF-8">
           <includes>
@@ -102,7 +105,7 @@
         </fileSet>
       </fileSets>
       <modules>
-        <module id="app-api-user" dir="app-api-user" name="app-api-user">
+        <module id="app-api-user" dir="__appPrefix__-api-user" name="__appPrefix__-api-user">
           <fileSets>
             <fileSet filtered="true" packaged="true" encoding="UTF-8">
               <directory>src/main/java</directory>
@@ -117,7 +120,7 @@
             </fileSet>
           </fileSets>
         </module>
-        <module id="app-api-system" dir="app-api-system" name="app-api-system">
+        <module id="app-api-system" dir="__appPrefix__-api-system" name="__appPrefix__-api-system">
           <fileSets>
             <fileSet filtered="true" packaged="true" encoding="UTF-8">
               <directory>src/main/java</directory>
@@ -134,7 +137,7 @@
         </module>
       </modules>
     </module>
-    <module id="app-biz" dir="app-biz" name="app-biz">
+    <module id="app-biz" dir="__appPrefix__-biz" name="__appPrefix__-biz">
       <fileSets>
         <fileSet filtered="true" encoding="UTF-8">
           <includes>
@@ -143,7 +146,7 @@
         </fileSet>
       </fileSets>
       <modules>
-        <module id="app-biz-system" dir="app-biz-system" name="app-biz-system">
+        <module id="app-biz-system" dir="__appPrefix__-biz-system" name="__appPrefix__-biz-system">
           <fileSets>
             <fileSet filtered="true" packaged="true" encoding="UTF-8">
               <directory>src/main/java</directory>
@@ -158,7 +161,7 @@
             </fileSet>
           </fileSets>
         </module>
-        <module id="app-biz-user" dir="app-biz-user" name="app-biz-user">
+        <module id="app-biz-user" dir="__appPrefix__-biz-user" name="__appPrefix__-biz-user">
           <fileSets>
             <fileSet filtered="true" packaged="true" encoding="UTF-8">
               <directory>src/main/java</directory>
@@ -175,7 +178,7 @@
         </module>
       </modules>
     </module>
-    <module id="app-core" dir="app-core" name="app-core">
+    <module id="app-core" dir="__appPrefix__-core" name="__appPrefix__-core">
       <fileSets>
         <fileSet filtered="true" packaged="true" encoding="UTF-8">
           <directory>src/main/java</directory>
@@ -190,7 +193,7 @@
         </fileSet>
       </fileSets>
     </module>
-    <module id="app-web" dir="app-web" name="app-web">
+    <module id="app-web" dir="__appPrefix__-web" name="__appPrefix__-web">
       <fileSets>
         <fileSet filtered="true" encoding="UTF-8">
           <includes>
@@ -199,7 +202,7 @@
         </fileSet>
       </fileSets>
       <modules>
-        <module id="app-web-member" dir="app-web-member" name="app-web-member">
+        <module id="app-web-member" dir="__appPrefix__-web-member" name="__appPrefix__-web-member">
           <fileSets>
             <fileSet filtered="true" packaged="true" encoding="UTF-8">
               <directory>src/main/java</directory>
@@ -214,7 +217,7 @@
             </fileSet>
           </fileSets>
         </module>
-        <module id="app-web-admin" dir="app-web-admin" name="app-web-admin">
+        <module id="app-web-admin" dir="__appPrefix__-web-admin" name="__appPrefix__-web-admin">
           <fileSets>
             <fileSet filtered="true" packaged="true" encoding="UTF-8">
               <directory>src/main/java</directory>
@@ -229,7 +232,7 @@
             </fileSet>
           </fileSets>
         </module>
-        <module id="app-web-common" dir="app-web-common" name="app-web-common">
+        <module id="app-web-common" dir="__appPrefix__-web-common" name="__appPrefix__-web-common">
           <fileSets>
             <fileSet filtered="true" packaged="true" encoding="UTF-8">
               <directory>src/main/java</directory>
@@ -279,7 +282,7 @@
         </fileSet>
       </fileSets>
     </module>
-    <module id="app-admin" dir="bootstrap/app-admin" name="app-admin">
+    <module id="app-admin" dir="bootstrap/__appPrefix__-admin" name="__appPrefix__-admin">
       <fileSets>
         <fileSet filtered="true" packaged="true" encoding="UTF-8">
           <directory>src/main/java</directory>
@@ -311,7 +314,7 @@
         </fileSet>
       </fileSets>
     </module>
-    <module id="app-member" dir="bootstrap/app-member" name="app-member">
+    <module id="app-member" dir="bootstrap/__appPrefix__-member" name="__appPrefix__-member">
       <fileSets>
         <fileSet filtered="true" packaged="true" encoding="UTF-8">
           <directory>src/main/java</directory>

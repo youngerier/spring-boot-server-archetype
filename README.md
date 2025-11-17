@@ -51,6 +51,7 @@ mvn -DskipTests clean install
     -DartifactId=my-app \
     -Dpackage=com.example.myapp \
     -Dversion=0.1.0-SNAPSHOT \
+    -DappPrefix=myapp \
     -DinteractiveMode=false
   ```
 
